@@ -115,6 +115,7 @@
       html { scroll-behavior: auto; }
       .card { transition: none; } .card:hover { transform: none; }
       .rotator .caret { animation: none; }
+      .rot-toggle { display: none; }
     }
   </style>
 </head>
@@ -123,7 +124,7 @@
     <header>
       <p class="hello">Hello 👋🏻</p>
       <h1>I'm <span class="name">Quentin VEYS</span> 👨‍💻</h1>
-      <p class="rotator"><span class="sr-only">I build clean code, design responsive web apps and secure, scalable APIs — a passionate fullstack software engineer.</span><span aria-hidden="true"><span id="rot">I build <span class="hl">clean</span> code</span><span class="caret"></span></span><button type="button" id="rot-toggle" class="rot-toggle" aria-pressed="false" hidden>Pause</button></p>
+      <p class="rotator"><span class="sr-only">I build clean code, design responsive web apps, develop modern frontend and backend apps, design dynamic user experiences and build secure, scalable APIs — a passionate fullstack software engineer.</span><span aria-hidden="true"><span id="rot">I build <span class="hl">clean</span> code</span><span class="caret"></span></span><button type="button" id="rot-toggle" class="rot-toggle" aria-pressed="false" hidden>Pause</button></p>
       <p class="quote">“Tech is my toolkit, impact is my goal.”</p>
       <ul class="links">
         <li><a class="cta" href="mailto:contact@quentinveys.be"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 5h20v14H2V5zm2 2v.5l8 5 8-5V7H4zm16 2.8-8 5-8-5V17h16V9.8z"/></svg>Contact me</a></li>
@@ -217,7 +218,7 @@
       var el = document.getElementById('rot');
       var btn = document.getElementById('rot-toggle');
       var box = el.closest('.rotator');
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var mq = window.matchMedia('(prefers-reduced-motion: reduce)');
       function render(parts, n) {
         var out = '', left = n;
         parts.forEach(function (p, k) {
@@ -242,20 +243,21 @@
         phase = 'hold'; schedule(1800);
       }
       function schedule(ms) { timer = setTimeout(step, ms); }
-      btn.hidden = false;
+      function showFull() { clearTimeout(timer); var parts = lines[i]; n = parts.join('').length; render(parts, n); phase = 'hold'; }
+      function sync() {
+        showFull();
+        btn.hidden = mq.matches;
+        box.classList.toggle('paused', paused || mq.matches);
+        if (!paused && !mq.matches) schedule(1800);
+      }
       btn.addEventListener('click', function () {
         paused = !paused;
         btn.setAttribute('aria-pressed', String(paused));
         btn.textContent = paused ? 'Lecture' : 'Pause';
-        box.classList.toggle('paused', paused);
-        if (paused) {
-          clearTimeout(timer);
-          var parts = lines[i]; n = parts.join('').length; render(parts, n); phase = 'hold';
-        } else {
-          schedule(1800);
-        }
+        sync();
       });
-      schedule(1800);
+      if (mq.addEventListener) mq.addEventListener('change', sync); else if (mq.addListener) mq.addListener(sync);
+      sync();
     })();
   </script>
 </body>
