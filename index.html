@@ -45,10 +45,17 @@
     .hello { font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 700; margin: 0; }
     h1 { font-size: clamp(2.25rem, 7vw, 3.5rem); line-height: 1.1; margin: 4px 0 16px; letter-spacing: -.02em; }
     h1 .name { color: var(--pink); }
-    .rotator { font-size: clamp(1.15rem, 3.2vw, 1.6rem); font-weight: 700; min-height: 1.6em; margin: 0 0 24px; }
+    .rotator { font-size: clamp(1.15rem, 3.2vw, 1.6rem); font-weight: 700; min-height: 1.6em; margin: 0 0 24px; display: flex; align-items: center; gap: 12px; }
+    .rotator > [aria-hidden] { flex: 1; min-width: 0; }
     .rotator .hl { color: var(--mint); }
     .rotator .caret { display: inline-block; width: 2px; height: 1em; background: var(--pink); vertical-align: -.12em; margin-left: 2px; animation: blink 1s steps(1) infinite; }
     @keyframes blink { 50% { opacity: 0; } }
+    .rotator.paused .caret { animation: none; }
+    .rot-toggle { flex: none; font: 600 .75rem/1 system-ui, sans-serif; padding: 5px 10px;
+      border-radius: 999px; color: var(--muted); background: var(--surface); border: 1px solid var(--border); cursor: pointer; }
+    .rot-toggle:hover { color: var(--text); border-color: var(--pink); }
+    .rot-toggle:focus-visible { outline: 2px solid var(--mint); outline-offset: 2px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
     .quote { color: var(--muted); font-style: italic; margin: 0 0 28px; border-left: 3px solid var(--pink); padding-left: 12px; }
 
     .links { display: flex; flex-wrap: wrap; gap: 10px; padding: 0; margin: 0; list-style: none; }
@@ -116,7 +123,7 @@
     <header>
       <p class="hello">Hello 👋🏻</p>
       <h1>I'm <span class="name">Quentin VEYS</span> 👨‍💻</h1>
-      <p class="rotator" aria-live="polite"><span id="rot">I build <span class="hl">clean</span> code</span><span class="caret" aria-hidden="true"></span></p>
+      <p class="rotator"><span class="sr-only">I build clean code, design responsive web apps and secure, scalable APIs — a passionate fullstack software engineer.</span><span aria-hidden="true"><span id="rot">I build <span class="hl">clean</span> code</span><span class="caret"></span></span><button type="button" id="rot-toggle" class="rot-toggle" aria-pressed="false" hidden>Pause</button></p>
       <p class="quote">“Tech is my toolkit, impact is my goal.”</p>
       <ul class="links">
         <li><a class="cta" href="mailto:contact@quentinveys.be"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 5h20v14H2V5zm2 2v.5l8 5 8-5V7H4zm16 2.8-8 5-8-5V17h16V9.8z"/></svg>Contact me</a></li>
@@ -208,8 +215,9 @@
         ['I build ', 'secure', ' and scalable APIs']
       ];
       var el = document.getElementById('rot');
+      var btn = document.getElementById('rot-toggle');
+      var box = el.closest('.rotator');
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      var i = 0;
       function render(parts, n) {
         var out = '', left = n;
         parts.forEach(function (p, k) {
@@ -219,22 +227,35 @@
         });
         el.innerHTML = out;
       }
-      function play() {
-        var parts = lines[i], total = parts.join('').length, n = 0;
-        var t = setInterval(function () {
-          render(parts, ++n);
-          if (n >= total) { clearInterval(t); setTimeout(erase, 1800); }
-        }, 55);
-        function erase() {
-          var e = setInterval(function () {
-            render(parts, --n);
-            if (n <= 0) { clearInterval(e); i = (i + 1) % lines.length; setTimeout(play, 300); }
-          }, 25);
+      // Single-timer state machine: 'hold' (full text shown), 'erase', 'type'.
+      var i = 0, n = lines[0].join('').length, phase = 'hold', timer = null, paused = false;
+      function step() {
+        var parts = lines[i], total = parts.join('').length;
+        if (phase === 'hold') { phase = 'erase'; return schedule(25); }
+        if (phase === 'erase') {
+          render(parts, --n);
+          if (n > 0) return schedule(25);
+          i = (i + 1) % lines.length; phase = 'type'; return schedule(300);
         }
+        render(parts, ++n);
+        if (n < total) return schedule(55);
+        phase = 'hold'; schedule(1800);
       }
-      setTimeout(erase0, 1800);
-      function erase0() { var parts = lines[0], n = parts.join('').length;
-        var e = setInterval(function () { render(parts, --n); if (n <= 0) { clearInterval(e); i = 1; setTimeout(play, 300); } }, 25); }
+      function schedule(ms) { timer = setTimeout(step, ms); }
+      btn.hidden = false;
+      btn.addEventListener('click', function () {
+        paused = !paused;
+        btn.setAttribute('aria-pressed', String(paused));
+        btn.textContent = paused ? 'Lecture' : 'Pause';
+        box.classList.toggle('paused', paused);
+        if (paused) {
+          clearTimeout(timer);
+          var parts = lines[i]; n = parts.join('').length; render(parts, n); phase = 'hold';
+        } else {
+          schedule(1800);
+        }
+      });
+      schedule(1800);
     })();
   </script>
 </body>
