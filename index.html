@@ -124,7 +124,7 @@
     <header>
       <p class="hello">Hello 👋🏻</p>
       <h1>I'm <span class="name">Quentin VEYS</span> 👨‍💻</h1>
-      <p class="rotator"><span class="sr-only">I build clean code, design responsive web apps, develop modern frontend and backend apps, design dynamic user experiences and build secure, scalable APIs — a passionate fullstack software engineer.</span><span aria-hidden="true"><span id="rot">I build <span class="hl">clean</span> code</span><span class="caret"></span></span><button type="button" id="rot-toggle" class="rot-toggle" aria-pressed="false" hidden>Pause</button></p>
+      <p class="rotator"><span class="sr-only">I build clean code. I design responsive web apps. I'm a fullstack developer. I develop modern frontend apps. I develop modern backend apps. I'm a passionate software engineer. I design dynamic user experience. I build secure and scalable APIs.</span><span aria-hidden="true"><span id="rot">I build <span class="hl">clean</span> code</span><span class="caret"></span></span><button type="button" id="rot-toggle" class="rot-toggle" aria-pressed="false" hidden>Pause</button></p>
       <p class="quote">“Tech is my toolkit, impact is my goal.”</p>
       <ul class="links">
         <li><a class="cta" href="mailto:contact@quentinveys.be"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 5h20v14H2V5zm2 2v.5l8 5 8-5V7H4zm16 2.8-8 5-8-5V17h16V9.8z"/></svg>Contact me</a></li>
@@ -250,13 +250,15 @@
         box.classList.toggle('paused', paused || mq.matches);
         if (!paused && !mq.matches) schedule(1800);
       }
-      btn.addEventListener('click', function () {
-        paused = !paused;
+      function setPaused(v) {
+        paused = v;
         btn.setAttribute('aria-pressed', String(paused));
         btn.textContent = paused ? 'Lecture' : 'Pause';
-        sync();
-      });
-      if (mq.addEventListener) mq.addEventListener('change', sync); else if (mq.addListener) mq.addListener(sync);
+      }
+      btn.addEventListener('click', function () { setPaused(!paused); sync(); });
+      // A preference change resets the manual pause so the button state always matches the animation.
+      function onPrefChange() { setPaused(false); sync(); }
+      if (mq.addEventListener) mq.addEventListener('change', onPrefChange); else if (mq.addListener) mq.addListener(onPrefChange);
       sync();
     })();
   </script>
