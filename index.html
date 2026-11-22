@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quentin Veys</title>
+  <meta name="description" content="Quentin Veys — projets open source : outils macOS, extensions navigateur, agents et skills pour assistants de code.">
+  <meta property="og:title" content="Quentin Veys">
+  <meta property="og:description" content="Projets open source : outils macOS, extensions navigateur, agents et skills.">
+  <meta property="og:url" content="https://qveys.github.io/">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23111827'/%3E%3Ctext x='16' y='22' font-family='system-ui,sans-serif' font-size='16' font-weight='700' fill='%2360a5fa' text-anchor='middle'%3EQV%3C/text%3E%3C/svg%3E">
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --muted: #64748b;
+      --accent: #2563eb;
+      --accent-soft: #dbeafe;
+      --shadow: 0 1px 2px rgb(15 23 42 / .04), 0 4px 16px rgb(15 23 42 / .04);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0b1120;
+        --surface: #111827;
+        --border: #1f2937;
+        --text: #e5e7eb;
+        --muted: #94a3b8;
+        --accent: #60a5fa;
+        --accent-soft: #1e293b;
+        --shadow: none;
+      }
+    }
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+    .wrap { max-width: 880px; margin: 0 auto; padding: 0 16px; }
+
+    header { padding: 72px 0 40px; }
+    .avatar {
+      width: 88px; height: 88px; border-radius: 50%;
+      border: 1px solid var(--border); background: var(--surface);
+      display: block; margin-bottom: 24px;
+    }
+    h1 { font-size: clamp(2rem, 5vw, 2.75rem); line-height: 1.15; margin: 0 0 12px; letter-spacing: -.02em; }
+    .lead { font-size: 1.125rem; color: var(--muted); margin: 0 0 24px; max-width: 60ch; }
+    .links { display: flex; flex-wrap: wrap; gap: 10px; padding: 0; margin: 0; list-style: none; }
+    .links a {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 14px; border: 1px solid var(--border); border-radius: 999px;
+      background: var(--surface); color: var(--text); font-size: .95rem;
+    }
+    .links a:hover { border-color: var(--accent); text-decoration: none; }
+    .links svg { width: 16px; height: 16px; fill: currentColor; }
+
+    section { padding: 32px 0; }
+    h2 { font-size: 1.25rem; margin: 0 0 20px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+    .card {
+      display: flex; flex-direction: column; gap: 8px;
+      padding: 20px; border: 1px solid var(--border); border-radius: 12px;
+      background: var(--surface); box-shadow: var(--shadow); color: var(--text);
+      transition: border-color .15s, transform .15s;
+    }
+    .card:hover { border-color: var(--accent); transform: translateY(-2px); text-decoration: none; }
+    .card h3 { margin: 0; font-size: 1.05rem; }
+    .card p { margin: 0; color: var(--muted); font-size: .95rem; flex: 1; }
+    .tag {
+      align-self: flex-start; font-size: .8rem; padding: 2px 10px; border-radius: 999px;
+      background: var(--accent-soft); color: var(--accent);
+    }
+    .more { margin-top: 20px; }
+
+    footer { padding: 40px 0 56px; color: var(--muted); font-size: .9rem; border-top: 1px solid var(--border); margin-top: 32px; }
+    @media (prefers-reduced-motion: reduce) { .card { transition: none; } .card:hover { transform: none; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <img class="avatar" src="https://github.com/qveys.png?size=176" alt="Avatar de Quentin Veys" width="88" height="88">
+      <h1>Quentin Veys</h1>
+      <p class="lead">Basé en Belgique. Je construis des outils pratiques : utilitaires macOS, extensions navigateur, applications mobiles, agents et skills pour assistants de code.</p>
+      <ul class="links">
+        <li><a href="https://github.com/qveys"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a></li>
+        <li><a href="https://quentinveys.be"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zm5.9 7h-2.4a12.5 12.5 0 00-1-4.6A6 6 0 0113.9 7zM8 2c.6.8 1.3 2.5 1.5 5h-3C6.7 4.5 7.4 2.8 8 2zM5.5 2.4a12.5 12.5 0 00-1 4.6H2.1a6 6 0 013.4-4.6zM2.1 9h2.4c.1 1.7.5 3.3 1 4.6A6 6 0 012.1 9zM8 14c-.6-.8-1.3-2.5-1.5-5h3c-.2 2.5-.9 4.2-1.5 5zm2.5-.4c.5-1.3.9-2.9 1-4.6h2.4a6 6 0 01-3.4 4.6z"/></svg>quentinveys.be</a></li>
+      </ul>
+    </header>
+
+    <main>
+      <section aria-labelledby="projets">
+        <h2 id="projets">Projets</h2>
+        <div class="grid">
+          <a class="card" href="https://github.com/qveys/webpage-to-markdown">
+            <span class="tag">JavaScript</span>
+            <h3>webpage-to-markdown</h3>
+            <p>Extension Chrome / Edge / Firefox qui convertit des pages web en Markdown, page unique ou crawl multi-pages.</p>
+          </a>
+          <a class="card" href="https://github.com/qveys/tm-exclusions">
+            <span class="tag">Shell</span>
+            <h3>tm-exclusions</h3>
+            <p>Gestionnaire d'exclusions Time Machine : exclut automatiquement caches, node_modules, venvs, artefacts de build et modèles LLM.</p>
+          </a>
+          <a class="card" href="https://github.com/qveys/claude-skills">
+            <span class="tag">Shell</span>
+            <h3>claude-skills</h3>
+            <p>Skills pour Claude Code, dont wsh-cockpit : exécuter des commandes dans un bloc Wave Terminal visible.</p>
+          </a>
+          <a class="card" href="https://github.com/qveys/agent-skills">
+            <span class="tag">Shell</span>
+            <h3>agent-skills</h3>
+            <p>Source centrale et versionnée de skills pour agents (Claude Code, Codex…), avec suivi de provenance des skills tiers.</p>
+          </a>
+          <a class="card" href="https://github.com/qveys/OpenCodeMobile">
+            <span class="tag">Kotlin</span>
+            <h3>OpenCodeMobile</h3>
+            <p>Client mobile OpenCode en Kotlin / Compose Multiplatform.</p>
+          </a>
+          <a class="card" href="https://github.com/qveys/blinko-ios">
+            <span class="tag">Swift</span>
+            <h3>blinko-ios</h3>
+            <p>Client iOS natif pour Blinko.</p>
+          </a>
+        </div>
+        <p class="more"><a href="https://github.com/qveys?tab=repositories">Tous les dépôts →</a></p>
+      </section>
+    </main>
+
+    <footer>
+      © <span id="y">2026</span> Quentin Veys · Hébergé sur GitHub Pages
+    </footer>
+  </div>
+  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+</body>
+</html>
