@@ -5,6 +5,7 @@ Personal home page of Quentin Veys, served at <https://qveys.github.io/>.
 ## Structure
 
 - `index.html` — the whole site: a single static page with inline CSS (light/dark theme via `prefers-color-scheme`), no build step.
+- `og.png` — 1200×630 social preview image referenced by the `og:image` tag; regenerate it if the hero text changes.
 - `.github/workflows/pages.yml` — deploys the repository root to GitHub Pages on every push to `main` (or manually via *Run workflow*).
 - `.nojekyll` — disables Jekyll processing.
 
